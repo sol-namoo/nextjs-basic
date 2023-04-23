@@ -5,33 +5,37 @@ export default function NavBar() {
     console.log(router);
     return (
         <nav>
-          <Link className={[router.pathname === '/' ? 'active' : '', 'link' ].join(' ')}
-                style={{marginRight: '8px',
-                          color: 'white',
-                          fontWeight: 'bold'
-                        }}
-                href="/">Home</Link>
-          <Link className={[router.pathname === '/about' ? 'active' : '' , 'link'].join(' ')}
-                style={{marginRight: '8px',
-                          color: 'white',
-                          fontWeight: 'bold'
-                        }}
-                href="/about">About</Link>
-            <style jsx>{
-                `
-                  nav {
-                    background-color: tomato;
-                  }
-                  .link {
-                    margin-right: 8px;
-                    color: white;
-                    font-weight: bold;
-                  }
-                  .active {
-                     color: cornflowerblue;
-                  }
-                `
-            }</style>
+            <div>
+                <Link href="/"><span className={router.pathname === '/' ? 'active link' : 'link'} >Home</span></Link>
+                <Link href="/about"><span  className={router.pathname === '/about' ? 'active link' : 'link'}>About</span></Link>
+            </div>
+            <style jsx>{`
+                nav {
+                  display: flex;
+                  gap: 10px;
+                  flex-direction: column;
+                  align-items: center;
+                  padding-top: 20px;
+                  padding-bottom: 10px;
+                  box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px,
+                    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                }
+                img {
+                  max-width: 100px;
+                  margin-bottom: 5px;
+                }
+                nav div {
+                  display: flex;
+                  gap: 10px;
+                }
+                .link {
+                  font-weight: 600;
+                  font-size: 18px;
+                }
+                .active {
+                  color: tomato;
+                }
+      `}</style>
         </nav>
     );
     }
