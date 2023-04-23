@@ -1,11 +1,52 @@
+import {useEffect, useState} from "react";
 import Link from 'next/link';
 import Seo from "../components/Seo";
+
+const apikey = '7c8f7abaead39f6a18d6559289c55149';
  export default function Home(){
+     const [movies, setMovies] = useState();
+
+     useEffect(() => {
+         (async()=>{
+                 const {results} = await (await fetch(
+                     `https://api.themoviedb.org/3//movie/popular?api_key=${apikey}`
+                 )).json();
+                 setMovies(results);
+             }
+         )();
+     },[])
+
     return (
-        <div>
+        <div className='container'>
             <Seo title='Home'/>
-            <h1>Home Page</h1>
-            <h2>try going to <Link href='/about'>this page!</Link></h2>
+            {!movies && <h4>Loading...</h4>}
+            {movies?.map((movie) =>
+                <div key={movie.id} className='movie' >
+                    <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
+                    <h4>{movie.original_title}</h4>
+                </div>
+            )}
+            <style jsx>{`
+        .container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding: 20px;
+          gap: 20px;
+        }
+        .movie img {
+          max-width: 100%;
+          border-radius: 12px;
+          transition: transform 0.2s ease-in-out;
+          box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+        }
+        .movie:hover img {
+          transform: scale(1.05) translateY(-10px);
+        }
+        .movie h4 {
+          font-size: 18px;
+          text-align: center;
+        }
+      `}</style>
         </div>
     );
  }
